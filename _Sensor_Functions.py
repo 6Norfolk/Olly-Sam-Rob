@@ -74,7 +74,7 @@ def captureSonarArray(arraySize):
                         break
                 SonarSensorArray =[]
     
-    print('The Length of reading list is, ',len(readingList))
+    print('The Lenght of reading list is, ',len(readingList))
     print(readingList)
     SonarSensorArray=[]
     return True
@@ -82,7 +82,8 @@ def captureSonarArray(arraySize):
 def readMessage(arraySize):
     messageRecieved=False
     bResult=False
-    global line 
+    global line
+    line=[]
     while messageRecieved==False:
         for b in serSensor.read():
             b=format(b,'#04x')
@@ -92,14 +93,16 @@ def readMessage(arraySize):
                 #messageRecieved = decodeMessage(line)   #DecodeMessage
                 if line[0]==FailedDiagnosticSession:
                     #DiagnosticResult=line[0]
-                    print("_Sensor_Functions.decodeMessage.... Result failed 0x12 Sensor number",line[1])
+                    print("_Sensor_Functions.readMessage.... Result failed 0x12 Sensor number",line[1])
                     messageRecieved= True
                     bResult=False
+                    break
                 if line[0]==PassedDiagnsoticSession:
                     #DiagnosticResult=line[0]
-                    print("_Sensor_Functions.decodeMessage.... Result Passed 0x11")
+                    print("_Sensor_Functions.readMessage.... Result Passed 0x11")
                     messageRecieved= True
                     bResult=True
+                    break
                 else:
                     messageRecieved=False              
                 line=[]                                 #clear the buffer
@@ -108,6 +111,7 @@ def readMessage(arraySize):
                 line=[]                                 #clear the buffer
                 bResult=messageRecieved
             time.sleep(0.1)
+    
     return bResult
 
 def sendSerialMessageSensorModule(message):
@@ -136,6 +140,8 @@ def getFullArrayReading():
     if bResult==True:
         #print(readingList)
         return readingList
+    else:
+        return line
     return
 
 def monitorForwardArray():
@@ -147,6 +153,8 @@ def monitorForwardArray():
     if bResult==True:
         #print(readingList)
         return readingList
+    else:
+        return line
     return
 
 def monitorRearArray():
@@ -158,6 +166,8 @@ def monitorRearArray():
     if bResult==True:
         #print(readingList)
         return readingList
+    else:
+        return line
     return
 
 def sleepSensorModule():

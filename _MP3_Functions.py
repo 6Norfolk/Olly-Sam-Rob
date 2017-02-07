@@ -1,12 +1,13 @@
 import pygame
-import os
-import _Sensor_Functions
 
-from pygame.locals import *
-from sys import exit
+pygame.mixer.pre_init(44100,16,2,4096)
+pygame.init()
 from time import sleep
 
+
+
 while True:
-    os.system('mpg123 -q TRACK061.mp3 &')
+    pygame.mixer.music.load("hailbeep.mp3")
+    pygame.mixer.music.play()
     sleep(5)
     
