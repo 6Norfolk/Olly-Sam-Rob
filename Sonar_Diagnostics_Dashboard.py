@@ -41,8 +41,11 @@ FullArrayButtonStatus =False
 
 pygame.mixer.music.load("hailbeep.mp3")
 
-def renderButtons():
-    screen.blit(FullArrayButton,(350,249))
+def renderButtons(active):
+    if active==True:
+        screen.blit(FullArrayButtonOn,(350,249))
+    else:
+        screen.blit(FullArrayButton,(350,249))
     screen.blit(ForwardButton,(349,183))
     screen.blit(RearButton,(350,215))
     return
@@ -55,6 +58,9 @@ def checkButtonStatus(button):
     
 def pollFullArray():
     FullArrayButtonStatus = checkButtonStatus(FullArrayButtonStatus)
+    if FullArrayButtonStatus == False:
+        renderButtons(False)
+        return
     if FullArrayButtonStatus == True:
         screen.blit(FullArrayButtonOn,(350,249))
         pygame.display.update()
@@ -67,7 +73,7 @@ def pollFullArray():
             break
         fullArrayReading=_Sonar_Dashboard_Functions.convertArrayToStringList(fullArrayReading)
         _Sonar_Dashboard_Functions.renderSonarDash()
-        renderButtons()
+        renderButtons(True)
         _Sonar_Dashboard_Functions.displayFullArrayValues(fullArrayReading)
     return
     
